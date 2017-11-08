@@ -54,6 +54,7 @@ public class IgniteRestApplication {
         jdbcType.setDatabaseTable("person");
         jdbcType.setDatabaseSchema("ignite");
         jdbcType.setKeyFields(new JdbcTypeField(1, "id", Long.class, "id"));
+        jdbcType.setValueFields(new JdbcTypeField(2, "firstName", Long.class, "firstName"), new JdbcTypeField(3, "lastName", Long.class, "lastName"));
         f.setTypes(jdbcType);
         ccfg.setCacheStoreFactory(f);
         
