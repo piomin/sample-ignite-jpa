@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.mysql.jdbc.MysqlDefs;
 
+import pl.piomin.services.ignite.model.Gender;
 import pl.piomin.services.ignite.model.Person;
 
 @SpringBootApplication
@@ -54,7 +55,7 @@ public class IgniteRestApplication {
         jdbcType.setDatabaseTable("person");
         jdbcType.setDatabaseSchema("ignite");
         jdbcType.setKeyFields(new JdbcTypeField(1, "id", Long.class, "id"));
-        jdbcType.setValueFields(new JdbcTypeField(2, "firstName", Long.class, "firstName"), new JdbcTypeField(3, "lastName", Long.class, "lastName"));
+        jdbcType.setValueFields(new JdbcTypeField(2, "firstName", String.class, "firstName"), new JdbcTypeField(3, "lastName", String.class, "lastName"), new JdbcTypeField(4, "gender", Gender.class, "gender"), new JdbcTypeField(5, "country", String.class, "country"), new JdbcTypeField(6, "city", String.class, "city"));
         f.setTypes(jdbcType);
         ccfg.setCacheStoreFactory(f);
         
