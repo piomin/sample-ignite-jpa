@@ -1,0 +1,15 @@
+spring:  
+  application:
+    name: ignite-rest-service
+  datasource:
+    name: mysqlds
+    url: jdbc:mysql://192.168.99.100:33306/ignite?useSSL=false
+    username: ignite
+    password: ignite123
+             
+server:  
+  port: ${PORT:8081}
+  
+logging:
+  level:
+    org.springframework.web.client: INFO
