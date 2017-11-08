@@ -1,5 +1,6 @@
 package pl.piomin.services.ignite.controller;
 
+import org.apache.ignite.IgniteAtomicSequence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,11 +17,13 @@ import pl.piomin.services.ignite.repository.PersonRepository;
 public class IgniteRestController {
 
 	@Autowired
+	IgniteAtomicSequence sequence;
+	@Autowired
 	PersonRepository repository;
 	
 	@PostMapping
 	public Person add(@RequestBody Person person) {
-		return repository.save(person.getId(), person);
+		return repository.save(sequence.incrementAndGet(), person);
 	}
 	
 	@GetMapping("/{id}")
