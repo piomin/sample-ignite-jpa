@@ -1,17 +1,28 @@
 package pl.piomin.services.ignite.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Person {
+import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
+public class Person implements Serializable {
+
+	private static final long serialVersionUID = -1271194616130404625L;
+
+	@QuerySqlField(name = "id", index = true)
 	private Long id;
+	@QuerySqlField
 	private String firstName;
+	@QuerySqlField
 	private String lastName;
 	private Gender gender;
 	private Date birthDate;
 	private String country;
 	private String city;
 	private String address;
+	private List<Contact> contacts = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -75,6 +86,14 @@ public class Person {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public List<Contact> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(List<Contact> contacts) {
+		this.contacts = contacts;
 	}
 
 }
