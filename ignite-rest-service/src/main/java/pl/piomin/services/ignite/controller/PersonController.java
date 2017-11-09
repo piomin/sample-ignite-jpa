@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.piomin.services.ignite.model.Contact;
 import pl.piomin.services.ignite.model.Person;
 import pl.piomin.services.ignite.repository.PersonRepository;
 
@@ -43,8 +44,8 @@ public class PersonController {
 	
 	@GetMapping("/contacts/{id}")
 	public Person findByIdWithContacts(@PathVariable("id") Long id) {
-		Person p = repository.selectPerson(id);
-		LOGGER.info("PersonController.findByIdWithContacts: {}", p);
+//		List<Cache.Entry> p = repository.selectPerson(id);
+		LOGGER.info("PersonController.findByIdWithContacts: {}", repository.selectPerson(id));
 		return null;
 	}
 	

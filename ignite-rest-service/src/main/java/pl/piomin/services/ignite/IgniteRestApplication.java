@@ -1,6 +1,7 @@
 package pl.piomin.services.ignite;
 
 import java.sql.JDBCType;
+import java.sql.Types;
 import java.util.Date;
 
 import javax.sql.DataSource;
@@ -59,8 +60,8 @@ public class IgniteRestApplication {
         jdbcContactType.setValueType(Contact.class);
         jdbcContactType.setDatabaseTable("contact");
         jdbcContactType.setDatabaseSchema("ignite");
-        jdbcContactType.setKeyFields(new JdbcTypeField(JDBCType.INTEGER.getVendorTypeNumber(), "id", Long.class, "id"));
-        jdbcContactType.setValueFields(new JdbcTypeField(JDBCType.VARCHAR.getVendorTypeNumber(), "contact_type", ContactType.class, "type"), new JdbcTypeField(JDBCType.VARCHAR.getVendorTypeNumber(), "location", String.class, "location"), new JdbcTypeField(JDBCType.INTEGER.getVendorTypeNumber(), "person_id", Long.class, "personId"));
+        jdbcContactType.setKeyFields(new JdbcTypeField(Types.INTEGER, "id", Long.class, "id"));
+        jdbcContactType.setValueFields(new JdbcTypeField(Types.VARCHAR, "contact_type", ContactType.class, "type"), new JdbcTypeField(Types.VARCHAR, "location", String.class, "location"), new JdbcTypeField(Types.INTEGER, "person_id", Long.class, "personId"));
         f2.setTypes(jdbcContactType);
         ccfg2.setCacheStoreFactory(f2);
         
@@ -80,7 +81,7 @@ public class IgniteRestApplication {
         jdbcType.setDatabaseTable("person");
         jdbcType.setDatabaseSchema("ignite");
         jdbcType.setKeyFields(new JdbcTypeField(JDBCType.INTEGER.getVendorTypeNumber(), "id", Long.class, "id"));
-        jdbcType.setValueFields(new JdbcTypeField(JDBCType.VARCHAR.getVendorTypeNumber(), "first_name", String.class, "firstName"), new JdbcTypeField(JDBCType.VARCHAR.getVendorTypeNumber(), "last_name", String.class, "lastName"), new JdbcTypeField(JDBCType.VARCHAR.getVendorTypeNumber(), "gender", Gender.class, "gender"), new JdbcTypeField(JDBCType.VARCHAR.getVendorTypeNumber(), "country", String.class, "country"), new JdbcTypeField(6, "city", String.class, "city"), new JdbcTypeField(JDBCType.VARCHAR.getVendorTypeNumber(), "address", String.class, "address"), new JdbcTypeField(JDBCType.DATE.getVendorTypeNumber(), "birth_date", Date.class, "birthDate"));
+        jdbcType.setValueFields(new JdbcTypeField(Types.VARCHAR, "first_name", String.class, "firstName"), new JdbcTypeField(Types.VARCHAR, "last_name", String.class, "lastName"), new JdbcTypeField(Types.VARCHAR, "gender", Gender.class, "gender"), new JdbcTypeField(Types.VARCHAR, "country", String.class, "country"), new JdbcTypeField(Types.VARCHAR, "city", String.class, "city"), new JdbcTypeField(Types.VARCHAR, "address", String.class, "address"), new JdbcTypeField(Types.DATE, "birth_date", Date.class, "birthDate"));
 //        JdbcType jdbcType2 = new JdbcType();
 //        jdbcType2.setCacheName("PersonCache");
 //        jdbcType2.setKeyType(Long.class);
