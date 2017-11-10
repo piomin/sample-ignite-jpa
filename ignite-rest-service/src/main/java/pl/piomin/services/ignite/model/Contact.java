@@ -1,9 +1,15 @@
 package pl.piomin.services.ignite.model;
 
+import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
-public class Contact {
+public class Contact implements Serializable {
 
+	private static final long serialVersionUID = -5350789537473512833L;
+	private static final AtomicLong ID_GEN = new AtomicLong();
+	
 	@QuerySqlField(index = true)
 	private Long id;
 	private ContactType type;
@@ -11,6 +17,10 @@ public class Contact {
 	@QuerySqlField(index = true)
 	private Long personId;
 
+	public void init() {
+		this.id = ID_GEN.incrementAndGet();
+	}
+	
 	public Long getId() {
 		return id;
 	}

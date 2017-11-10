@@ -7,10 +7,7 @@ import java.util.Date;
 import javax.sql.DataSource;
 
 import org.apache.ignite.Ignite;
-import org.apache.ignite.IgniteAtomicSequence;
 import org.apache.ignite.Ignition;
-import org.apache.ignite.cache.CacheKeyConfiguration;
-import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.store.jdbc.CacheJdbcPojoStoreFactory;
 import org.apache.ignite.cache.store.jdbc.JdbcType;
 import org.apache.ignite.cache.store.jdbc.JdbcTypeField;
@@ -39,14 +36,14 @@ public class IgniteRestApplication {
         SpringApplication.run(IgniteRestApplication.class, args);
     }
     
-    @Bean
+    @SuppressWarnings("deprecation")
+	@Bean
     public Ignite igniteInstance() {
     	IgniteConfiguration cfg = new IgniteConfiguration();
         cfg.setIgniteInstanceName("ignite-1");
         cfg.setPeerClassLoadingEnabled(true);
         
         CacheConfiguration<Long, Contact> ccfg2 = new CacheConfiguration<>("ContactCache");
-//        ccfg2.setCacheMode(CacheMode.REPLICATED);
         ccfg2.setIndexedTypes(Long.class, Contact.class);
         ccfg2.setWriteBehindEnabled(true);
         ccfg2.setReadThrough(true);
@@ -66,7 +63,6 @@ public class IgniteRestApplication {
         ccfg2.setCacheStoreFactory(f2);
         
         CacheConfiguration<Long, Person> ccfg = new CacheConfiguration<>("PersonCache");
-//        ccfg.setCacheMode(CacheMode.REPLICATED);
         ccfg.setIndexedTypes(Long.class, Person.class);
         ccfg.setWriteBehindEnabled(true);
         ccfg.setReadThrough(true);
@@ -82,32 +78,11 @@ public class IgniteRestApplication {
         jdbcType.setDatabaseSchema("ignite");
         jdbcType.setKeyFields(new JdbcTypeField(JDBCType.INTEGER.getVendorTypeNumber(), "id", Long.class, "id"));
         jdbcType.setValueFields(new JdbcTypeField(Types.VARCHAR, "first_name", String.class, "firstName"), new JdbcTypeField(Types.VARCHAR, "last_name", String.class, "lastName"), new JdbcTypeField(Types.VARCHAR, "gender", Gender.class, "gender"), new JdbcTypeField(Types.VARCHAR, "country", String.class, "country"), new JdbcTypeField(Types.VARCHAR, "city", String.class, "city"), new JdbcTypeField(Types.VARCHAR, "address", String.class, "address"), new JdbcTypeField(Types.DATE, "birth_date", Date.class, "birthDate"));
-//        JdbcType jdbcType2 = new JdbcType();
-//        jdbcType2.setCacheName("PersonCache");
-//        jdbcType2.setKeyType(Long.class);
-//        jdbcType2.setValueType(Contact.class);
-//        jdbcType2.setDatabaseTable("contact");
-//        jdbcType2.setDatabaseSchema("ignite");
-//        jdbcType2.setKeyFields(new JdbcTypeField(1, "id", Long.class, "id"));
-//        jdbcType2.setValueFields(new JdbcTypeField(2, "contact_type", ContactType.class, "type"), new JdbcTypeField(3, "location", String.class, "location"), new JdbcTypeField(4, "person_id", Integer.class, "personId"));
         f.setTypes(jdbcType);
         ccfg.setCacheStoreFactory(f);
-        
-         
+       
         cfg.setCacheConfiguration(ccfg, ccfg2);
     	return Ignition.start(cfg);
-    }
-    
-    @Bean(name = "personSequence")
-    public IgniteAtomicSequence personSequence() {
-    	Ignite i = igniteInstance();
-    	return i.atomicSequence("personSequence", 0, true);
-    }
-    
-    @Bean(name = "contactSequence")
-    public IgniteAtomicSequence contactSequence() {
-    	Ignite i = igniteInstance();
-    	return i.atomicSequence("contactSequence", 0, true);
     }
     
 }

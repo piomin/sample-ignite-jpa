@@ -4,14 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
 public class Person implements Serializable {
 
 	private static final long serialVersionUID = -1271194616130404625L;
-
-	@QuerySqlField(name = "id", index = true)
+	private static final AtomicLong ID_GEN = new AtomicLong();
+	
+	@QuerySqlField(index = true)
 	private Long id;
 	@QuerySqlField
 	private String firstName;
@@ -24,6 +26,10 @@ public class Person implements Serializable {
 	private String address;
 	private List<Contact> contacts = new ArrayList<>();
 
+	public void init() {
+		this.id = ID_GEN.incrementAndGet();
+	}
+	
 	public Long getId() {
 		return id;
 	}

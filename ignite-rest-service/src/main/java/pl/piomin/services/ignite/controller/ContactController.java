@@ -1,8 +1,6 @@
 package pl.piomin.services.ignite.controller;
 
-import org.apache.ignite.IgniteAtomicSequence;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,14 +16,12 @@ import pl.piomin.services.ignite.repository.ContactRepository;
 public class ContactController {
 
 	@Autowired
-	@Qualifier("contactSequence")
-	IgniteAtomicSequence sequence;
-	@Autowired
 	ContactRepository repository;
 	
 	@PostMapping
 	public Contact add(@RequestBody Contact contact) {
-		return repository.save(sequence.incrementAndGet(), contact);
+		contact.init();
+		return repository.save(contact.getId(), contact);
 	}
 	
 	@GetMapping("/{id}")
