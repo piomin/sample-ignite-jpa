@@ -12,7 +12,9 @@ import pl.piomin.services.ignite.model.Person;
 @RepositoryConfig(cacheName = "PersonCache")
 public interface PersonRepository extends IgniteRepository<Person, Long> {
 	
-	@Query("SELECT c.* FROM Person p JOIN \"ContactCache\".Contact c ON p.id=c.personId WHERE p.id=?")
-	List<Contact> selectPerson(Long id);
+	List<Person> findByFirstNameAndLastName(String firstName, String lastName);
+	
+	@Query("SELECT c.* FROM Person p JOIN \"ContactCache\".Contact c ON p.id=c.personId WHERE p.firstName=? and p.lastName=?")
+	List<Contact> selectContacts(String firstName, String lastName);
 	
 }

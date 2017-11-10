@@ -1,5 +1,8 @@
 package pl.piomin.services.ignite.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.piomin.services.ignite.model.Contact;
 import pl.piomin.services.ignite.model.Person;
 import pl.piomin.services.ignite.repository.PersonRepository;
 
@@ -33,11 +37,13 @@ public class PersonController {
 		return repository.findOne(id);
 	}
 	
-	@GetMapping("/contacts/{id}")
-	public Person findByIdWithContacts(@PathVariable("id") Long id) {
-//		List<Cache.Entry> p = repository.selectPerson(id);
-		LOGGER.info("PersonController.findByIdWithContacts: {}", repository.selectPerson(id));
-		return null;
+	@GetMapping("/contacts/{firstName}/{lastName}")
+	public List<Person> findByNameWithContacts(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
+		List<Person> persons = repository.findByFirstNameAndLastName(firstName, lastName);
+		List<Contact> contacts = repository.selectContacts(firstName, lastName);
+		contacts.stream().filter(c -> c.getPersonId().equals(0)).collect(Collectors.toList());
+		LOGGER.info("PersonController.findByIdWithContacts: {}", contacts);
+		return persons;
 	}
 	
 }
