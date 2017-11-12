@@ -12,7 +12,9 @@ public class Contact implements Serializable {
 	
 	@QuerySqlField(index = true)
 	private Long id;
+	@QuerySqlField
 	private ContactType type;
+	@QuerySqlField(index = true)
 	private String location;
 	@QuerySqlField(index = true)
 	private Long personId;

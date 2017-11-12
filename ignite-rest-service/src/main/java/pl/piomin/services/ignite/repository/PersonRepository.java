@@ -17,4 +17,6 @@ public interface PersonRepository extends IgniteRepository<Person, Long> {
 	@Query("SELECT c.* FROM Person p JOIN \"ContactCache\".Contact c ON p.id=c.personId WHERE p.firstName=? and p.lastName=?")
 	List<Contact> selectContacts(String firstName, String lastName);
 	
+	@Query("SELECT p.id, p.firstName, p.lastName, c.id, c.type, c.location FROM Person p JOIN \"ContactCache\".Contact c ON p.id=c.personId WHERE p.firstName=? and p.lastName=?")
+	List<List<?>> selectContacts2(String firstName, String lastName);
 }

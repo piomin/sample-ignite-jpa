@@ -1,6 +1,5 @@
 package pl.piomin.services.ignite;
 
-import java.sql.JDBCType;
 import java.sql.Types;
 import java.util.Date;
 
@@ -17,6 +16,8 @@ import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.springdata.repository.config.EnableIgniteRepositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.actuate.endpoint.MetricsEndpoint;
+import org.springframework.boot.actuate.endpoint.MetricsEndpointMetricReader;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
@@ -78,7 +79,7 @@ public class IgniteRestApplication {
 		jdbcType.setValueType(Person.class);
 		jdbcType.setDatabaseTable("person");
 		jdbcType.setDatabaseSchema("ignite");
-		jdbcType.setKeyFields(new JdbcTypeField(JDBCType.INTEGER.getVendorTypeNumber(), "id", Long.class, "id"));
+		jdbcType.setKeyFields(new JdbcTypeField(Types.INTEGER, "id", Long.class, "id"));
 		jdbcType.setValueFields(new JdbcTypeField(Types.VARCHAR, "first_name", String.class, "firstName"),
 				new JdbcTypeField(Types.VARCHAR, "last_name", String.class, "lastName"),
 				new JdbcTypeField(Types.VARCHAR, "gender", Gender.class, "gender"),
@@ -91,6 +92,11 @@ public class IgniteRestApplication {
 
 		cfg.setCacheConfiguration(ccfg, ccfg2);
 		return Ignition.start(cfg);
+	}
+	
+	@Bean
+	public MetricsEndpointMetricReader metricsEndpointMetricReader(final MetricsEndpoint metricsEndpoint) {
+		return new MetricsEndpointMetricReader(metricsEndpoint);
 	}
 
 }

@@ -10,6 +10,6 @@ spring:
 server:  
   port: ${PORT:8090}
   
-#logging:
-#  level:
-#    org.apache.ignite: DEBUG
+management:
+  security:
+    enabled: false
