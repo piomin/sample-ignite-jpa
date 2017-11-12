@@ -3,6 +3,9 @@ package pl.piomin.services.ignite.controller;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -17,48 +20,62 @@ import pl.piomin.services.ignite.model.Person;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IgniteRestControllerTest {
 
-	private static long index = 0;
+//	private static long index = 0;
 	
 	DecimalFormat f = new DecimalFormat("000000000");
-	Random r = new Random();
-	TestRestTemplate restTemplate = new TestRestTemplate();
 	
 	@Test
-	public void testAddPerson() {
-		for (int i = 0; i < 1000000; i++) {
-			Person p = restTemplate.postForObject("http://localhost:8090/person", createTestPerson(), Person.class);
-			int x = r.nextInt(6);
-			for (int j = 0; j < x; j++) {
-				restTemplate.postForObject("http://localhost:8090/contact", createTestContact(p.getId()), Contact.class);
-			}
+	public void testAddPerson() throws InterruptedException {
+		ExecutorService es = Executors.newCachedThreadPool();
+		for (int j = 0; j < 3; j++) {
+			es.execute(() -> {
+				TestRestTemplate restTemplateLocal = new TestRestTemplate();
+				Random r = new Random();
+				for (int i = 0; i < 10000; i++) {
+					Person p = restTemplateLocal.postForObject("http://localhost:8090/person", createTestPerson(), Person.class);
+					int x = r.nextInt(6);
+					for (int k = 0; k < x; k++) {
+						restTemplateLocal.postForObject("http://localhost:8090/contact", createTestContact(p.getId()), Contact.class);
+					}
+				}
+			}); 
 		}
+		es.shutdown();
+		es.awaitTermination(10, TimeUnit.MINUTES);
 	}
 	
-//	@Test
+	@Test
 	public void testFindById() {
+		TestRestTemplate restTemplate = new TestRestTemplate();
 		for (int i = 0; i < 1000; i++) {
 			restTemplate.getForObject("http://localhost:8090/person/{id}", Person.class, i+1);
 		}
 	}
 	
-//	@Test
+	@Test
 	public void testFindContactByLocation() {
+		TestRestTemplate restTemplate = new TestRestTemplate();
+		Random r = new Random();
 		for (int i = 0; i < 1000; i++) {
 			int n = r.nextInt(100000);
-			restTemplate.getForObject("http://localhost:8090/contact/{location}", Contact[].class, "location-" + n);
+			restTemplate.getForObject("http://localhost:8090/contact/location/{location}", Contact[].class, "location-" + n);
 		}
 	}
 	
-//	@Test
+	@Test
 	public void testFindByName() {
+		TestRestTemplate restTemplate = new TestRestTemplate();
+		Random r = new Random();
 		for (int i = 0; i < 1000; i++) {
 			int n = r.nextInt(100000);
 			restTemplate.getForObject("http://localhost:8090/person/{firstName}/{lastName}", Person[].class, "Test" + n, "Test" + n);
 		}
 	}
 	
-//	@Test
+	@Test
 	public void testFindByNameWithContacts() {
+		TestRestTemplate restTemplate = new TestRestTemplate();
+		Random r = new Random();
 		for (int i = 0; i < 1000; i++) {
 			int n = r.nextInt(100000);
 			restTemplate.getForObject("http://localhost:8090/person/contacts/{firstName}/{lastName}", Person[].class, "Test" + n, "Test" + n);
@@ -66,6 +83,7 @@ public class IgniteRestControllerTest {
 	}
 	
 	private Person createTestPerson() {
+		Random r = new Random();
 		Person p = new Person();
 		int n = r.nextInt(100000);
 		p.setFirstName("Test" + n);
@@ -79,10 +97,11 @@ public class IgniteRestControllerTest {
 	}
 	
 	private Contact createTestContact(Long personId) {
+		Random r = new Random();
 		Contact c = new Contact();
 		c.setPersonId(personId);
 		c.setType(ContactType.values()[r.nextInt(4)]);
-		c.setLocation("location-" + f.format(index++));
+		c.setLocation("location-" + f.format(r.nextInt()));
 		return c;
 	}
 	
