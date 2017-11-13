@@ -19,19 +19,17 @@ import pl.piomin.services.ignite.model.Person;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IgniteRestControllerTest {
-
-//	private static long index = 0;
 	
 	DecimalFormat f = new DecimalFormat("000000000");
 	
 	@Test
 	public void testAddPerson() throws InterruptedException {
 		ExecutorService es = Executors.newCachedThreadPool();
-		for (int j = 0; j < 3; j++) {
+		for (int j = 0; j < 10; j++) {
 			es.execute(() -> {
 				TestRestTemplate restTemplateLocal = new TestRestTemplate();
 				Random r = new Random();
-				for (int i = 0; i < 10000; i++) {
+				for (int i = 0; i < 100000; i++) {
 					Person p = restTemplateLocal.postForObject("http://localhost:8090/person", createTestPerson(), Person.class);
 					int x = r.nextInt(6);
 					for (int k = 0; k < x; k++) {
@@ -41,7 +39,7 @@ public class IgniteRestControllerTest {
 			}); 
 		}
 		es.shutdown();
-		es.awaitTermination(10, TimeUnit.MINUTES);
+		es.awaitTermination(60, TimeUnit.MINUTES);
 	}
 	
 	@Test
@@ -101,7 +99,7 @@ public class IgniteRestControllerTest {
 		Contact c = new Contact();
 		c.setPersonId(personId);
 		c.setType(ContactType.values()[r.nextInt(4)]);
-		c.setLocation("location-" + f.format(r.nextInt()));
+		c.setLocation("location-" + f.format(Math.abs(r.nextInt())));
 		return c;
 	}
 	
