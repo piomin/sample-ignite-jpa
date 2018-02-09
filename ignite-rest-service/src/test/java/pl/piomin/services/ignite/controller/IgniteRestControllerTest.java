@@ -27,7 +27,7 @@ public class IgniteRestControllerTest {
 	@Test
 	public void testAddPerson() throws InterruptedException {
 		ExecutorService es = Executors.newCachedThreadPool();
-		for (int j = 0; j < 4; j++) {
+		for (int j = 0; j < 10; j++) {
 			es.execute(() -> {
 				TestRestTemplate restTemplateLocal = new TestRestTemplate();
 				Random r = new Random();
