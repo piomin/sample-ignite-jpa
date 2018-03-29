@@ -23,34 +23,13 @@ public class IgniteRestApplication {
 		
 		TcpDiscoverySpi spi = new TcpDiscoverySpi(); 
 		TcpDiscoveryKubernetesIpFinder ipFinder = new TcpDiscoveryKubernetesIpFinder();
-		ipFinder.setMasterUrl("https://192.168.99.100:8443");
-		ipFinder.setAccountToken("C:\\Users\\minkowp\\Kubernetes\\token");
 		spi.setIpFinder(ipFinder);
 		
 		IgniteConfiguration cfg = new IgniteConfiguration();
 		cfg.setClientMode(true);
-//		cfg.setIgniteInstanceName("Kubernetes-Demo");
 		cfg.setDiscoverySpi(spi);
 		cfg.setIgniteInstanceName("kubernetes-cluster");
 		
-//		ClientConnectorConfiguration cliConnCfg = new ClientConnectorConfiguration();
-//		cliConnCfg.setHost("ignite");
-//		cliConnCfg.setPort(9042);
-//		cliConnCfg.setTcpNoDelay(true);
-//		cfg.setClientConnectorConfiguration(cliConnCfg);
-		
-//        CacheConfiguration ccfg = new CacheConfiguration();
-//        ccfg.setName("PersonCache");
-//        ccfg.setCacheMode(CacheMode.PARTITIONED);
-//        ccfg.setAtomicityMode(CacheAtomicityMode.ATOMIC);
-//        ccfg.setCopyOnRead(true);
-//        CacheConfiguration ccfg2 = new CacheConfiguration();
-//        ccfg.setName("ContactCache");
-//        ccfg.setCacheMode(CacheMode.PARTITIONED);
-//        ccfg.setAtomicityMode(CacheAtomicityMode.ATOMIC);
-//        ccfg.setCopyOnRead(true);
-        
-//        cfg.setCacheConfiguration(ccfg, ccfg2);
 		return Ignition.start(cfg);
 	}
 
