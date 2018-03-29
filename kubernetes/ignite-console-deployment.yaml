@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ignite-web-console
+  labels:
+    run: ignite-web-console
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: ignite-web-console
+    spec:
+      volumes:
+        - name: ignite-storage
+          persistentVolumeClaim:
+           claimName: ignite-volume-claim
+      containers:
+      - name: ignite-web-console
+        image: apacheignite/web-console-standalone
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        - containerPort: 3000
+          protocol: TCP
+        - containerPort: 3001
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/data/ignite"
+          name: ignite-storage

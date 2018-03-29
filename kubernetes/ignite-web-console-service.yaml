@@ -1,0 +1,21 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: ignite-web-console
+spec:
+  selector:
+    run: ignite-web-console
+  ports:
+    - name: port1
+      protocol: TCP
+      port: 3001
+      targetPort: 3001
+    - name: port2
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: port3
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: NodePort

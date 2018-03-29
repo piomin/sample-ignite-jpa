@@ -6,7 +6,7 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
-		<ignite.version>2.3.0</ignite.version>
+		<ignite.version>2.4.0</ignite.version>
 		<java.version>1.8</java.version>
 	</properties>
 
@@ -23,10 +23,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
@@ -35,15 +31,24 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-spring-data</artifactId>
+			<version>2.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.ignite</groupId>
-			<artifactId>ignite-spring-data</artifactId>
-			<version>${ignite.version}</version>
+			<artifactId>ignite-kubernetes</artifactId>
+			<version>2.4.0</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

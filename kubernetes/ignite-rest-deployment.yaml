@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ignite-rest-service
+  labels:
+    run: ignite-rest-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: ignite-rest-service
+    spec:
+      containers:
+      - name: ignite-rest-service
+        image: piomin/ignite-rest-service:1.0
+        ports:
+        - containerPort: 8090
+          protocol: TCP
