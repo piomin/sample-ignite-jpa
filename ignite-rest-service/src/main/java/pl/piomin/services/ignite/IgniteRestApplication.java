@@ -26,7 +26,7 @@ public class IgniteRestApplication {
 		spi.setIpFinder(ipFinder);
 		
 		IgniteConfiguration cfg = new IgniteConfiguration();
-		cfg.setClientMode(true);
+//		cfg.setClientMode(true);
 		cfg.setDiscoverySpi(spi);
 		cfg.setIgniteInstanceName("kubernetes-cluster");
 		
