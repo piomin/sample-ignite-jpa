@@ -3,6 +3,7 @@ package pl.piomin.services.ignite;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.apache.ignite.configuration.DataStorageConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.springdata.repository.config.EnableIgniteRepositories;
 import org.springframework.boot.SpringApplication;
@@ -21,10 +22,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableIgniteRepositories
 @EnableSwagger2
-public class IgniteRestApplication {
+public class IgniteClientApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(IgniteRestApplication.class, args);
+		SpringApplication.run(IgniteClientApplication.class, args);
 	}
 
 	@Bean
@@ -32,14 +33,15 @@ public class IgniteRestApplication {
 		
 		IgniteConfiguration cfg = new IgniteConfiguration();
 		cfg.setIgniteInstanceName("ignite-cluster-node");
+		cfg.setClientMode(true);
 		
 		CacheConfiguration<Long, Person> ccfg1 = new CacheConfiguration<>("PersonCache");
 		CacheConfiguration<Long, Contact> ccfg2 = new CacheConfiguration<>("ContactCache");
 		cfg.setCacheConfiguration(ccfg1, ccfg2);
 		
-//		DataStorageConfiguration storageCfg = new DataStorageConfiguration();
-//		storageCfg.getDefaultDataRegionConfiguration().setPersistenceEnabled(true);
-//		cfg.setDataStorageConfiguration(storageCfg);
+		DataStorageConfiguration storageCfg = new DataStorageConfiguration();
+		storageCfg.getDefaultDataRegionConfiguration().setPersistenceEnabled(true);
+		cfg.setDataStorageConfiguration(storageCfg);
 		
 		return Ignition.start(cfg);
 	}

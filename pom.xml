@@ -6,5 +6,6 @@
   <packaging>pom</packaging>
   <modules>
   	<module>ignite-rest-service</module>
+  	<module>ignite-client-service</module>
   </modules>
 </project>

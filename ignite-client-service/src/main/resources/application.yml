@@ -1,0 +1,10 @@
+spring:  
+  application:
+    name: ignite-client-service
+             
+server:  
+  port: ${PORT:8090}
+  
+management:
+  security:
+    enabled: false
