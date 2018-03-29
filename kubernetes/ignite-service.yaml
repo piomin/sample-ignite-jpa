@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: ignite
 spec:
+  clusterIP: None
   ports:
     - port: 9042
   selector:
     app: ignite
-  type: NodePort
