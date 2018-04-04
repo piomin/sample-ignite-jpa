@@ -76,6 +76,16 @@ public class PersonController {
 		return persons;
 	}
 	
+	@GetMapping("/{id}/withContacts")
+	public Person findByIdWithContacts(@PathVariable("id") Long id) {
+		List<List<?>> result = repository.findByIdWithContacts(id);
+		if (result.isEmpty())
+			return null;
+		Person p = mapPerson(result.get(0));
+		LOGGER.info("PersonController.findByIdWithContacts: {}", result);
+		return p;
+	}
+	
 	private Person mapPerson(List<?> l) {
 		Person p = new Person();
 		Contact c = new Contact();
@@ -84,7 +94,7 @@ public class PersonController {
 		p.setLastName((String) l.get(2));
 		c.setId((Long) l.get(3));
 		c.setType((ContactType) l.get(4));
-		c.setLocation((String) l.get(4));
+		c.setLocation((String) l.get(5));
 		p.addContact(c);
 		return p;
 	}

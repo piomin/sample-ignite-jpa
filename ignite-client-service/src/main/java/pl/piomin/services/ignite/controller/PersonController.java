@@ -61,7 +61,7 @@ public class PersonController {
 		List<Person> persons = repository.findByFirstNameAndLastName(firstName, lastName);
 		List<Contact> contacts = repository.selectContacts(firstName, lastName);
 		persons.stream().forEach(it -> it.setContacts(contacts.stream().filter(c -> c.getPersonId().equals(it.getId())).collect(Collectors.toList())));
-		LOGGER.info("PersonController.findByIdWithContacts: {}", contacts);
+		LOGGER.info("PersonController.findByNameWithContacts: {}", contacts);
 		return persons;
 	}
 	
@@ -72,8 +72,16 @@ public class PersonController {
 		for (List<?> l : result) {
 			persons.add(mapPerson(l));
 		}
-		LOGGER.info("PersonController.findByIdWithContacts: {}", result);
+		LOGGER.info("PersonController.findByNameWithContacts2: {}", result);
 		return persons;
+	}
+	
+	@GetMapping("/{id}/withContacts")
+	public Person findByIdWithContacts(@PathVariable("id") Long id) {
+		List<List<?>> result = repository.findByIdWithContacts(id);
+		Person p = mapPerson(result.get(0));
+		LOGGER.info("PersonController.findByIdWithContacts: {}", result);
+		return p;
 	}
 	
 	private Person mapPerson(List<?> l) {

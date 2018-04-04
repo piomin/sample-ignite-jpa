@@ -3,7 +3,6 @@ package pl.piomin.services.ignite;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.CacheConfiguration;
-import org.apache.ignite.configuration.DataStorageConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.springdata.repository.config.EnableIgniteRepositories;
 import org.springframework.boot.SpringApplication;
@@ -36,12 +35,10 @@ public class IgniteClientApplication {
 		cfg.setClientMode(true);
 		
 		CacheConfiguration<Long, Person> ccfg1 = new CacheConfiguration<>("PersonCache");
+		ccfg1.setIndexedTypes(Long.class, Person.class);
 		CacheConfiguration<Long, Contact> ccfg2 = new CacheConfiguration<>("ContactCache");
+		ccfg2.setIndexedTypes(Long.class, Contact.class);
 		cfg.setCacheConfiguration(ccfg1, ccfg2);
-		
-		DataStorageConfiguration storageCfg = new DataStorageConfiguration();
-		storageCfg.getDefaultDataRegionConfiguration().setPersistenceEnabled(true);
-		cfg.setDataStorageConfiguration(storageCfg);
 		
 		return Ignition.start(cfg);
 	}
