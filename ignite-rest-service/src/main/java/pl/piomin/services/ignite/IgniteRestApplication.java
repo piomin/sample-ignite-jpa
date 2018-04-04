@@ -1,9 +1,11 @@
 package pl.piomin.services.ignite;
 
 import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteLogger;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.CacheConfiguration;
 import org.apache.ignite.configuration.IgniteConfiguration;
+import org.apache.ignite.logger.slf4j.Slf4jLogger;
 import org.apache.ignite.springdata.repository.config.EnableIgniteRepositories;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,21 +30,16 @@ public class IgniteRestApplication {
 	}
 
 	@Bean
-	public Ignite igniteInstance() {
-		
+	public Ignite igniteInstance() {		
 		IgniteConfiguration cfg = new IgniteConfiguration();
 		cfg.setIgniteInstanceName("ignite-cluster-node");
-		
 		CacheConfiguration<Long, Person> ccfg1 = new CacheConfiguration<>("PersonCache");
 		ccfg1.setIndexedTypes(Long.class, Person.class);
 		CacheConfiguration<Long, Contact> ccfg2 = new CacheConfiguration<>("ContactCache");
 		ccfg2.setIndexedTypes(Long.class, Contact.class);
 		cfg.setCacheConfiguration(ccfg1, ccfg2);
-		
-//		DataStorageConfiguration storageCfg = new DataStorageConfiguration();
-//		storageCfg.getDefaultDataRegionConfiguration().setPersistenceEnabled(true);
-//		cfg.setDataStorageConfiguration(storageCfg);
-		
+		IgniteLogger log = new Slf4jLogger();
+		cfg.setGridLogger(log);	
 		return Ignition.start(cfg);
 	}
 	

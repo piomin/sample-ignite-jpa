@@ -20,14 +20,14 @@ public class TestCluster {
 	
 	@Test
 	public void testCluster() throws InterruptedException {
-		for (int i=0; i<10; i++) {
+		for (int i=0; i<10000; i++) {
 			Person p = template.postForObject("http://localhost:8090/person", createPerson(), Person.class);
 			Assert.notNull(p, "Create person failed");
 			Contact c1 = template.postForObject("http://localhost:8090/contact", createContact(p.getId(), 0), Contact.class);
 			Assert.notNull(c1, "Create contact failed");
 			Contact c2 = template.postForObject("http://localhost:8090/contact", createContact(p.getId(), 1), Contact.class);
 			Assert.notNull(c2, "Create contact failed");
-			Thread.sleep(10);
+			Thread.sleep(100);
 			Person result = template.getForObject("http://localhost:{port}/person/{id}/withContacts", Person.class, clusterPorts[r.nextInt(2)], p.getId());
 			Assert.notNull(result, "Person not found");
 			Assert.notEmpty(result.getContacts(), "Contacts not found");

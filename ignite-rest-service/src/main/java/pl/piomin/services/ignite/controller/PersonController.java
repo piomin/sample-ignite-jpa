@@ -81,13 +81,28 @@ public class PersonController {
 		List<List<?>> result = repository.findByIdWithContacts(id);
 		if (result.isEmpty())
 			return null;
-		Person p = mapPerson(result.get(0));
+		Person p = new Person();
+		for (List<?> l : result) {
+			mapPerson(p, l);
+		}
 		LOGGER.info("PersonController.findByIdWithContacts: {}", result);
 		return p;
 	}
 	
 	private Person mapPerson(List<?> l) {
 		Person p = new Person();
+		Contact c = new Contact();
+		p.setId((Long) l.get(0));
+		p.setFirstName((String) l.get(1));
+		p.setLastName((String) l.get(2));
+		c.setId((Long) l.get(3));
+		c.setType((ContactType) l.get(4));
+		c.setLocation((String) l.get(5));
+		p.addContact(c);
+		return p;
+	}
+	
+	private Person mapPerson(Person p, List<?> l) {
 		Contact c = new Contact();
 		p.setId((Long) l.get(0));
 		p.setFirstName((String) l.get(1));
