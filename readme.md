@@ -1,3 +1,3 @@
-## In-memory data grid with Apache Ignite
+## Apache Ignite Cluster together with Spring Boot
 
-Detailed description can be found here: [In-memory data grid with Apache Ignite](https://piotrminkowski.wordpress.com/2017/11/13/in-memory-data-grid-with-apache-ignite/) 
+Detailed description can be found here: [Apache Ignite Cluster together with Spring Boot](https://piotrminkowski.wordpress.com/2018/04/04/apache-ignite-cluster-together-with-spring-boot/) 
