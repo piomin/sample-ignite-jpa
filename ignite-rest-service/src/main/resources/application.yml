@@ -3,7 +3,7 @@ spring:
     name: ignite-rest-service
   datasource:
     name: mysqlds
-    url: jdbc:mysql://192.168.99.100:33306/ignite?useSSL=false
+    url: jdbc:mysql://localhost:3306/ignite?useSSL=false
     username: ignite
     password: ignite123
              

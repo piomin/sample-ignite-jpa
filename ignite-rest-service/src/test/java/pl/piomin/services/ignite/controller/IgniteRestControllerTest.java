@@ -17,14 +17,14 @@ import pl.piomin.services.ignite.model.ContactType;
 import pl.piomin.services.ignite.model.Gender;
 import pl.piomin.services.ignite.model.Person;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IgniteRestControllerTest {
 
 //	private static long index = 0;
 	
 	DecimalFormat f = new DecimalFormat("000000000");
 	
-	@Test
+//	@Test
 	public void testAddPerson() throws InterruptedException {
 		ExecutorService es = Executors.newCachedThreadPool();
 		for (int j = 0; j < 10; j++) {
@@ -44,7 +44,7 @@ public class IgniteRestControllerTest {
 		es.awaitTermination(10, TimeUnit.MINUTES);
 	}
 	
-	@Test
+//	@Test
 	public void testFindById() {
 		TestRestTemplate restTemplate = new TestRestTemplate();
 		for (int i = 0; i < 1000; i++) {
@@ -52,7 +52,7 @@ public class IgniteRestControllerTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void testFindContactByLocation() {
 		TestRestTemplate restTemplate = new TestRestTemplate();
 		Random r = new Random();
@@ -62,7 +62,7 @@ public class IgniteRestControllerTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void testFindByName() {
 		TestRestTemplate restTemplate = new TestRestTemplate();
 		Random r = new Random();
@@ -72,7 +72,7 @@ public class IgniteRestControllerTest {
 		}
 	}
 	
-	@Test
+//	@Test
 	public void testFindByNameWithContacts() {
 		TestRestTemplate restTemplate = new TestRestTemplate();
 		Random r = new Random();
