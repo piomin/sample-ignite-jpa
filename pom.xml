@@ -16,7 +16,7 @@
     <sonar.projectKey>piomin_sample-ignite-jpa</sonar.projectKey>
     <sonar.organization>piomin</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-    <ignite.version>2.3.0</ignite.version>
+    <ignite.version>2.9.1</ignite.version>
     <java.version>1.8</java.version>
   </properties>
 
