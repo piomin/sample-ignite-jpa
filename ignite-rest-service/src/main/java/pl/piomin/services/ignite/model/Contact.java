@@ -1,9 +1,9 @@
 package pl.piomin.services.ignite.model;
 
+import org.apache.ignite.cache.query.annotations.QuerySqlField;
+
 import java.io.Serializable;
 import java.util.concurrent.atomic.AtomicLong;
-
-import org.apache.ignite.cache.query.annotations.QuerySqlField;
 
 public class Contact implements Serializable {
 

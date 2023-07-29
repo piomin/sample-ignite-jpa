@@ -2,10 +2,10 @@ package pl.piomin.services.ignite.repository;
 
 import java.util.List;
 
+
 import org.apache.ignite.springdata.repository.IgniteRepository;
 import org.apache.ignite.springdata.repository.config.Query;
 import org.apache.ignite.springdata.repository.config.RepositoryConfig;
-
 import pl.piomin.services.ignite.model.Contact;
 import pl.piomin.services.ignite.model.Person;
 
