@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>1.5.22.RELEASE</version>
+    <version>2.7.14</version>
   </parent>
 
   <groupId>pl.piomin.services</groupId>
@@ -17,7 +17,7 @@
     <sonar.organization>piomin</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <ignite.version>2.9.1</ignite.version>
-    <java.version>1.8</java.version>
+    <java.version>17</java.version>
   </properties>
 
   <modules>

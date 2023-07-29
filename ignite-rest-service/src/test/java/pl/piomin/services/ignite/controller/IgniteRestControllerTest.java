@@ -1,21 +1,17 @@
 package pl.piomin.services.ignite.controller;
 
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import pl.piomin.services.ignite.model.Contact;
+import pl.piomin.services.ignite.model.ContactType;
+import pl.piomin.services.ignite.model.Gender;
+import pl.piomin.services.ignite.model.Person;
+
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-
-import pl.piomin.services.ignite.model.Contact;
-import pl.piomin.services.ignite.model.ContactType;
-import pl.piomin.services.ignite.model.Gender;
-import pl.piomin.services.ignite.model.Person;
 
 //@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class IgniteRestControllerTest {

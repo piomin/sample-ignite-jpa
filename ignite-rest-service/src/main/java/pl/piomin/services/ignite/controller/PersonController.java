@@ -25,68 +25,68 @@ import pl.piomin.services.ignite.repository.PersonRepository;
 @RequestMapping("/person")
 public class PersonController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
-	
-	@Autowired
-	PersonRepository repository;
-	
-	@PostMapping
-	public Person add(@RequestBody Person person) {
-		person.init();
-		return repository.save(person.getId(), person);
-	}
-	
-	@PutMapping
-	public Person update(@RequestBody Person person) {
-		return repository.save(person.getId(), person);
-	}
-	
-	@DeleteMapping("/{id}")
-	public void delete(Long id) {
-		repository.delete(id);
-	}
-	
-	@GetMapping("/{id}")
-	public Person findById(@PathVariable("id") Long id) {
-		return repository.findOne(id);
-	}
-	
-	@GetMapping("/{firstName}/{lastName}")
-	public List<Person> findByName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
-		return repository.findByFirstNameAndLastName(firstName, lastName);
-	}
-	
-	@GetMapping("/contacts/{firstName}/{lastName}")
-	public List<Person> findByNameWithContacts(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
-		List<Person> persons = repository.findByFirstNameAndLastName(firstName, lastName);
-		List<Contact> contacts = repository.selectContacts(firstName, lastName);
-		persons.stream().forEach(it -> it.setContacts(contacts.stream().filter(c -> c.getPersonId().equals(it.getId())).collect(Collectors.toList())));
-		LOGGER.info("PersonController.findByIdWithContacts: {}", contacts);
-		return persons;
-	}
-	
-	@GetMapping("/contacts2/{firstName}/{lastName}")
-	public List<Person> findByNameWithContacts2(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
-		List<List<?>> result = repository.selectContacts2(firstName, lastName);
-		List<Person> persons = new ArrayList<>();
-		for (List<?> l : result) {
-			persons.add(mapPerson(l));
-		}
-		LOGGER.info("PersonController.findByIdWithContacts: {}", result);
-		return persons;
-	}
-	
-	private Person mapPerson(List<?> l) {
-		Person p = new Person();
-		Contact c = new Contact();
-		p.setId((Long) l.get(0));
-		p.setFirstName((String) l.get(1));
-		p.setLastName((String) l.get(2));
-		c.setId((Long) l.get(3));
-		c.setType((ContactType) l.get(4));
-		c.setLocation((String) l.get(4));
-		p.addContact(c);
-		return p;
-	}
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
+
+    @Autowired
+    PersonRepository repository;
+
+    @PostMapping
+    public Person add(@RequestBody Person person) {
+        person.init();
+        return repository.save(person.getId(), person);
+    }
+
+    @PutMapping
+    public Person update(@RequestBody Person person) {
+        return repository.save(person.getId(), person);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    @GetMapping("/{id}")
+    public Person findById(@PathVariable("id") Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/{firstName}/{lastName}")
+    public List<Person> findByName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
+        return repository.findByFirstNameAndLastName(firstName, lastName);
+    }
+
+    @GetMapping("/contacts/{firstName}/{lastName}")
+    public List<Person> findByNameWithContacts(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
+        List<Person> persons = repository.findByFirstNameAndLastName(firstName, lastName);
+        List<Contact> contacts = repository.selectContacts(firstName, lastName);
+        persons.stream().forEach(it -> it.setContacts(contacts.stream().filter(c -> c.getPersonId().equals(it.getId())).collect(Collectors.toList())));
+        LOGGER.info("PersonController.findByIdWithContacts: {}", contacts);
+        return persons;
+    }
+
+    @GetMapping("/contacts2/{firstName}/{lastName}")
+    public List<Person> findByNameWithContacts2(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
+        List<List<?>> result = repository.selectContacts2(firstName, lastName);
+        List<Person> persons = new ArrayList<>();
+        for (List<?> l : result) {
+            persons.add(mapPerson(l));
+        }
+        LOGGER.info("PersonController.findByIdWithContacts: {}", result);
+        return persons;
+    }
+
+    private Person mapPerson(List<?> l) {
+        Person p = new Person();
+        Contact c = new Contact();
+        p.setId((Long) l.get(0));
+        p.setFirstName((String) l.get(1));
+        p.setLastName((String) l.get(2));
+        c.setId((Long) l.get(3));
+        c.setType((ContactType) l.get(4));
+        c.setLocation((String) l.get(4));
+        p.addContact(c);
+        return p;
+    }
+
 }

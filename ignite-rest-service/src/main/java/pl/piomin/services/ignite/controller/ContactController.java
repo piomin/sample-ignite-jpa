@@ -17,23 +17,23 @@ import pl.piomin.services.ignite.repository.ContactRepository;
 @RequestMapping("/contact")
 public class ContactController {
 
-	@Autowired
-	ContactRepository repository;
-	
-	@PostMapping
-	public Contact add(@RequestBody Contact contact) {
-		contact.init();
-		return repository.save(contact.getId(), contact);
-	}
-	
-	@GetMapping("/{id}")
-	public Contact findById(@PathVariable("id") Long id) {
-		return repository.findOne(id);
-	}
-	
-	@GetMapping("/location/{location}")
-	public List<Contact> findById(@PathVariable("location") String location) {
-		return repository.findByLocation(location);
-	}
-	
+    @Autowired
+    ContactRepository repository;
+
+    @PostMapping
+    public Contact add(@RequestBody Contact contact) {
+        contact.init();
+        return repository.save(contact.getId(), contact);
+    }
+
+    @GetMapping("/{id}")
+    public Contact findById(@PathVariable("id") Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/location/{location}")
+    public List<Contact> findById(@PathVariable("location") String location) {
+        return repository.findByLocation(location);
+    }
+
 }
