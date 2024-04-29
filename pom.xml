@@ -17,7 +17,7 @@
     <sonar.organization>piomin</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <ignite.version>2.16.0</ignite.version>
-    <java.version>17</java.version>
+    <java.version>21</java.version>
   </properties>
 
   <modules>
