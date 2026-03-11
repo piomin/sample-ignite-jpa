@@ -27,12 +27,12 @@ public class ContactController {
     }
 
     @GetMapping("/{id}")
-    public Contact findById(@PathVariable("id") Long id) {
+    public Contact findById(@PathVariable Long id) {
         return repository.findById(id).orElse(null);
     }
 
     @GetMapping("/location/{location}")
-    public List<Contact> findById(@PathVariable("location") String location) {
+    public List<Contact> findById(@PathVariable String location) {
         return repository.findByLocation(location);
     }
 

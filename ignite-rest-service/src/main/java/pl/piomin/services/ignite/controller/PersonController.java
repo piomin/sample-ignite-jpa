@@ -47,17 +47,17 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public Person findById(@PathVariable("id") Long id) {
+    public Person findById(@PathVariable Long id) {
         return repository.findById(id).orElse(null);
     }
 
     @GetMapping("/{firstName}/{lastName}")
-    public List<Person> findByName(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
+    public List<Person> findByName(@PathVariable String firstName, @PathVariable("lastName") String lastName) {
         return repository.findByFirstNameAndLastName(firstName, lastName);
     }
 
     @GetMapping("/contacts/{firstName}/{lastName}")
-    public List<Person> findByNameWithContacts(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
+    public List<Person> findByNameWithContacts(@PathVariable String firstName,  String lastName) {
         List<Person> persons = repository.findByFirstNameAndLastName(firstName, lastName);
         List<Contact> contacts = repository.selectContacts(firstName, lastName);
         persons.stream().forEach(it -> it.setContacts(contacts.stream().filter(c -> c.getPersonId().equals(it.getId())).collect(Collectors.toList())));
@@ -66,7 +66,7 @@ public class PersonController {
     }
 
     @GetMapping("/contacts2/{firstName}/{lastName}")
-    public List<Person> findByNameWithContacts2(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName) {
+    public List<Person> findByNameWithContacts2(@PathVariable String firstName, @PathVariable String lastName) {
         List<List<?>> result = repository.selectContacts2(firstName, lastName);
         List<Person> persons = new ArrayList<>();
         for (List<?> l : result) {
