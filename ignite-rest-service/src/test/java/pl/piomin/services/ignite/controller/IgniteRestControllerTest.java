@@ -1,6 +1,6 @@
 package pl.piomin.services.ignite.controller;
 
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.resttestclient.TestRestTemplate;
 import pl.piomin.services.ignite.model.Contact;
 import pl.piomin.services.ignite.model.ContactType;
 import pl.piomin.services.ignite.model.Gender;
